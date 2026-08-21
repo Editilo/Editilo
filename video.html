@@ -1,0 +1,1249 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Editilo Vidéo — éditeur vidéo simple et moderne."
+    >
+
+    <title>Editilo - Vidéo</title>
+
+    <link
+        rel="stylesheet"
+        href="video.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+    <link rel="icon" type="image/png" href="medias/favicon.png">
+
+</head>
+
+<body>
+
+
+<!-- =====================================================
+     NAVIGATION
+====================================================== -->
+
+<header class="navbar">
+
+    <div class="nav-container">
+
+        <a
+            href="index.html"
+            class="brand"
+        >
+
+            <span class="brand-mark">
+                E
+            </span>
+
+            <span class="brand-name">
+                Editilo
+            </span>
+
+        </a>
+
+
+        <nav class="navigation">
+
+            <a
+                href="index.html"
+                class="nav-link"
+                aria-label="Accueil"
+            >
+
+                <svg
+                    class="home-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+
+                    <path
+                        d="M3 10.5L12 3L21 10.5"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+
+                    <path
+                        d="M5.5 9.5V20H18.5V9.5"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+
+                    <path
+                        d="M9.5 20V14H14.5V20"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linejoin="round"
+                    />
+
+                </svg>
+
+            </a>
+
+
+            <a
+                href="outils.html"
+                class="nav-link"
+            >
+                Outils
+            </a>
+
+
+            <a
+                href="apropos.html"
+                class="nav-link"
+            >
+                À propos
+            </a>
+
+
+            <a
+                href="#"
+                class="nav-link contact-trigger"
+            >
+                Contact
+            </a>
+
+        </nav>
+
+
+        <button
+            class="mobile-menu-button"
+            id="mobileMenuButton"
+            aria-label="Ouvrir le menu"
+            aria-expanded="false"
+        >
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     MENU MOBILE
+====================================================== -->
+
+<div
+    class="mobile-menu"
+    id="mobileMenu"
+>
+
+    <a href="index.html">
+        Accueil
+    </a>
+
+    <a href="outils.html">
+        Outils
+    </a>
+
+    <a href="apropos.html">
+        À propos
+    </a>
+
+    <a
+        href="#"
+        class="contact-trigger"
+    >
+        Contact
+    </a>
+
+</div>
+
+
+<!-- =====================================================
+     ÉDITEUR VIDÉO
+====================================================== -->
+
+<main class="editor">
+
+
+    <!-- =================================================
+         TOPBAR
+    ================================================== -->
+
+    <section class="topbar">
+
+        <div></div>
+
+
+        <div class="editor-title">
+
+            <span class="section-label">
+                VIDEO
+            </span>
+
+        </div>
+
+
+        <button
+            id="addMedia"
+            class="add-main"
+            type="button"
+            aria-label="Ajouter une vidéo"
+            title="Ajouter une vidéo"
+        >
+
+            <span></span>
+            <span></span>
+
+        </button>
+
+    </section>
+
+
+    <!-- =================================================
+         ESPACE DE TRAVAIL
+    ================================================== -->
+
+    <section class="preview-wrap">
+
+
+        <!-- =================================================
+             MESSAGE ÉTAT VIDE
+        ================================================== -->
+
+        <div
+            id="emptyState"
+            class="empty-state"
+        >
+
+            <p>
+                Appuyez sur
+                <strong>+</strong>
+                pour importer ou prendre une vidéo.
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             APERÇU VIDÉO
+        ================================================== -->
+
+        <div
+            id="previewFrame"
+            class="preview-frame"
+        >
+
+            <video
+                id="preview"
+                playsinline
+                preload="metadata"
+            ></video>
+
+
+            <div
+                id="subtitleLayer"
+                class="subtitle-layer"
+            ></div>
+
+
+            <div
+                id="subtitleGuides"
+                class="subtitle-guides"
+                hidden
+            >
+
+                <div
+                    class="subtitle-guide horizontal"
+                ></div>
+
+
+                <div
+                    class="subtitle-guide vertical"
+                ></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         HISTORIQUE
+    ================================================== -->
+
+    <div class="history">
+
+        <button
+            id="undo"
+            type="button"
+            disabled
+            aria-label="Annuler"
+            title="Annuler"
+        >
+            ↶
+        </button>
+
+
+        <button
+            id="redo"
+            type="button"
+            disabled
+            aria-label="Rétablir"
+            title="Rétablir"
+        >
+            ↷
+        </button>
+
+    </div>
+
+
+    <!-- =================================================
+         TIMELINE
+    ================================================== -->
+
+    <section
+        id="timeline-panel"
+        class="timeline-panel"
+    >
+
+        <div class="timeline-head">
+
+            <span>
+                TIMELINE
+            </span>
+
+
+            <div class="head-right">
+
+                <span id="clock">
+                    00:00 / 00:00
+                </span>
+
+
+                <div class="zoom">
+
+                    <button
+                        id="zoomOut"
+                        type="button"
+                        aria-label="Réduire le zoom"
+                    >
+                        −
+                    </button>
+
+
+                    <button
+                        id="zoomIn"
+                        type="button"
+                        aria-label="Augmenter le zoom"
+                    >
+                        +
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="timelineViewport"
+            class="timeline-viewport"
+        >
+
+            <div
+                id="timelineSurface"
+                class="timeline-surface"
+            >
+
+                <div class="ruler-row">
+
+                    <div class="controls-spacer"></div>
+
+
+                    <div
+                        id="ruler"
+                        class="ruler"
+                    ></div>
+
+                </div>
+
+
+                <div
+                    id="tracks"
+                    class="tracks"
+                ></div>
+
+
+                <div
+                    id="playhead"
+                    class="playhead"
+                >
+
+                    <div
+                        class="playhead-head"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="transport">
+
+            <button
+                id="prevFrame"
+                type="button"
+                aria-label="Reculer"
+            >
+                ⏮
+            </button>
+
+
+            <button
+                id="play"
+                class="play"
+                type="button"
+                aria-label="Lire"
+            >
+                ▶
+            </button>
+
+
+            <button
+                id="nextFrame"
+                type="button"
+                aria-label="Avancer"
+            >
+                ⏭
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         BARRE D'ÉDITION VIDÉO
+    ================================================== -->
+
+    <section
+        id="contextToolbar"
+        class="video-tools-panel"
+    >
+
+        <div class="video-tools-heading">
+
+            <span class="video-tools-label">
+                ÉDITION
+            </span>
+
+            <p id="videoToolHelpText">
+                Sélectionnez un élément dans la timeline.
+            </p>
+
+        </div>
+
+
+        <div class="video-tool-buttons">
+
+
+            <!-- COUPER -->
+
+            <button
+                type="button"
+                class="video-tool-button"
+                id="videoToolCut"
+                disabled
+            >
+
+                <span>
+                    ✂
+                </span>
+
+                <strong>
+                    Couper
+                </strong>
+
+            </button>
+
+
+            <!-- SUPPRIMER -->
+
+            <button
+                type="button"
+                class="video-tool-button"
+                id="videoToolDelete"
+                disabled
+            >
+
+                <span>
+                    🗑
+                </span>
+
+                <strong>
+                    Supprimer
+                </strong>
+
+            </button>
+
+
+            <!-- VITESSE -->
+
+            <button
+                type="button"
+                class="video-tool-button"
+                id="videoToolSpeed"
+                disabled
+            >
+
+                <span>
+                    ×
+                </span>
+
+                <strong>
+                    Vitesse
+                </strong>
+
+            </button>
+
+
+            <!-- VOLUME -->
+
+            <button
+                type="button"
+                class="video-tool-button"
+                id="videoToolVolume"
+                disabled
+            >
+
+                <span>
+                    ♬
+                </span>
+
+                <strong>
+                    Volume
+                </strong>
+
+            </button>
+
+
+            <!-- SOUS-TITRES -->
+
+            <button
+                type="button"
+                class="video-tool-button"
+                id="videoToolSubtitle"
+                disabled
+            >
+
+                <span>
+                    T
+                </span>
+
+                <strong>
+                    Éditer sous-titre
+                </strong>
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         EXPORT
+    ================================================== -->
+
+    <div class="video-editor-footer">
+
+        <button
+            type="button"
+            class="video-export-button"
+            id="openVideoExportModal"
+            disabled
+        >
+
+            Exporter
+
+            <span>
+                →
+            </span>
+
+        </button>
+
+    </div>
+
+
+</main>
+
+
+<!-- =====================================================
+     MODALE CHOIX VIDÉO
+====================================================== -->
+
+<div
+    class="audio-modal"
+    id="mediaModal"
+    aria-hidden="true"
+>
+
+    <div
+        class="audio-modal-overlay"
+        data-close="mediaModal"
+    ></div>
+
+
+    <div
+        class="audio-modal-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="mediaModalTitle"
+    >
+
+        <div class="audio-modal-header">
+
+            <div>
+
+                <span class="section-label">
+                    NOUVELLE VIDÉO
+                </span>
+
+
+                <h2 id="mediaModalTitle">
+                    Comment commencer ?
+                </h2>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="audio-modal-close"
+                data-close="mediaModal"
+                aria-label="Fermer"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="choice-actions">
+
+
+            <button
+                type="button"
+                class="choice-card"
+                id="pickVideo"
+            >
+
+                <div class="choice-card-icon">
+                    ↑
+                </div>
+
+
+                <strong>
+                    Importer une vidéo
+                </strong>
+
+
+                <span>
+                    Choisir un fichier ou le glisser-déposer
+                </span>
+
+            </button>
+
+
+            <button
+                type="button"
+                class="choice-card"
+                id="pickAudio"
+            >
+
+                <div class="choice-card-icon">
+                    ●
+                </div>
+
+
+                <strong>
+                    Prendre une vidéo
+                </strong>
+
+
+                <span>
+                    Utiliser la caméra de votre appareil
+                </span>
+
+            </button>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     MODALE IMPORT VIDÉO
+====================================================== -->
+
+<div
+    class="audio-modal"
+    id="videoImportModal"
+    aria-hidden="true"
+>
+
+    <div
+        class="audio-modal-overlay"
+        data-close-video-import
+    ></div>
+
+
+    <div
+        class="audio-modal-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="videoImportModalTitle"
+    >
+
+        <div class="audio-modal-header">
+
+            <div>
+
+                <span class="section-label">
+                    IMPORTER
+                </span>
+
+
+                <h2 id="videoImportModalTitle">
+                    Ajouter votre vidéo.
+                </h2>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="audio-modal-close"
+                id="closeVideoImportModal"
+                aria-label="Fermer"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div
+            class="video-drop-zone"
+            id="videoDropZone"
+        >
+
+            <div class="choice-card-icon">
+                ↑
+            </div>
+
+
+            <h3>
+                Glissez votre vidéo ici
+            </h3>
+
+
+            <p>
+                ou choisissez directement un fichier
+            </p>
+
+
+            <button
+                type="button"
+                class="video-choose-file-button"
+                id="chooseVideoFileButton"
+            >
+                Choisir un fichier
+            </button>
+
+
+            <span class="supported-video-formats">
+                MP4 · WEBM · MOV · AVI · MKV
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     INPUTS FICHIERS
+====================================================== -->
+
+<input
+    id="videoFile"
+    type="file"
+    accept="video/*"
+    hidden
+>
+
+
+<input
+    id="audioFile"
+    type="file"
+    accept="audio/*"
+    hidden
+>
+
+
+<!-- =====================================================
+     MODALE VITESSE
+====================================================== -->
+
+<div
+    id="speedModal"
+    class="modal"
+    aria-hidden="true"
+>
+
+    <div
+        class="backdrop"
+        data-close="speedModal"
+    ></div>
+
+
+    <div class="modal-card small">
+
+        <div class="modal-top">
+
+            <h2>
+                Vitesse
+            </h2>
+
+
+            <button
+                type="button"
+                data-close="speedModal"
+                aria-label="Fermer"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="speed-grid">
+
+            <button data-speed="0.25">
+                0,25×
+            </button>
+
+            <button data-speed="0.5">
+                0,5×
+            </button>
+
+            <button data-speed="0.75">
+                0,75×
+            </button>
+
+            <button data-speed="1">
+                1×
+            </button>
+
+            <button data-speed="1.25">
+                1,25×
+            </button>
+
+            <button data-speed="1.5">
+                1,5×
+            </button>
+
+            <button data-speed="2">
+                2×
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     MODALE VOLUME
+====================================================== -->
+
+<div
+    id="volumeModal"
+    class="modal"
+    aria-hidden="true"
+>
+
+    <div
+        class="backdrop"
+        data-close="volumeModal"
+    ></div>
+
+
+    <div class="modal-card small">
+
+        <div class="modal-top">
+
+            <h2>
+                Volume
+            </h2>
+
+
+            <button
+                type="button"
+                data-close="volumeModal"
+                aria-label="Fermer"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="volume">
+
+            <strong id="volumeValue">
+                100%
+            </strong>
+
+
+            <input
+                id="volumeSlider"
+                type="range"
+                min="0"
+                max="200"
+                value="100"
+            >
+
+
+            <button
+                id="applyVolume"
+                type="button"
+            >
+                Appliquer
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =====================================================
+     MODALE EXPORT VIDÉO
+====================================================== -->
+
+<div
+    id="videoExportModal"
+    class="audio-modal"
+    aria-hidden="true"
+>
+
+    <div
+        class="audio-modal-overlay"
+        data-close-video-export
+    ></div>
+
+
+    <div
+        class="audio-modal-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="videoExportModalTitle"
+    >
+
+        <div class="audio-modal-header">
+
+            <div>
+
+                <span class="section-label">
+                    EXPORT
+                </span>
+
+
+                <h2 id="videoExportModalTitle">
+                    Télécharger votre vidéo.
+                </h2>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="audio-modal-close"
+                id="closeVideoExportModal"
+                aria-label="Fermer"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="video-modal-action-button"
+            id="videoExportConfirmButton"
+        >
+
+            MP4
+
+            <span>
+                ↓
+            </span>
+
+        </button>
+
+    </div>
+
+</div>
+
+
+       
+
+        
+
+
+<!-- =====================================================
+     CONTACT
+====================================================== -->
+
+<div
+    class="contact-modal"
+    id="contactModal"
+    aria-hidden="true"
+>
+
+    <div
+        class="contact-modal-overlay"
+        data-close-contact
+    ></div>
+
+
+    <div
+        class="contact-modal-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="contactModalTitle"
+    >
+
+        <div class="contact-modal-header">
+
+            <div>
+
+                <span class="section-label">
+                    CONTACT
+                </span>
+
+
+                <h2 id="contactModalTitle">
+                    Parlons d'Editilo.
+                </h2>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="contact-close"
+                id="contactClose"
+                aria-label="Fermer"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <p class="contact-modal-intro">
+
+            Une suggestion, une question ou simplement
+            envie de nous faire part de votre avis ?
+            Envoyez-nous un message.
+
+        </p>
+
+
+        <form
+            class="contact-form"
+            id="contactForm"
+            action="https://formspree.io/f/mwlenedj"
+            method="POST"
+        >
+
+            <div class="contact-form-row">
+
+                <div class="contact-field">
+
+                    <label for="contactFirstName">
+                        Prénom
+                    </label>
+
+
+                    <input
+                        type="text"
+                        id="contactFirstName"
+                        name="firstName"
+                        placeholder="Votre prénom"
+                        maxlength="50"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="contact-field">
+
+                    <label for="contactLastName">
+                        Nom
+                    </label>
+
+
+                    <input
+                        type="text"
+                        id="contactLastName"
+                        name="lastName"
+                        placeholder="Votre nom"
+                        maxlength="50"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="contact-field">
+
+                <label for="contactEmail">
+                    Adresse e-mail
+                </label>
+
+
+                <input
+                    type="email"
+                    id="contactEmail"
+                    name="email"
+                    placeholder="vous@exemple.com"
+                    maxlength="120"
+                    required
+                >
+
+            </div>
+
+
+            <div class="contact-field">
+
+                <div class="contact-message-label">
+
+                    <label for="contactMessage">
+                        Message
+                    </label>
+
+
+                    <span id="messageCounter">
+                        0 / 1000
+                    </span>
+
+                </div>
+
+
+                <textarea
+                    id="contactMessage"
+                    name="message"
+                    placeholder="Écrivez votre message..."
+                    maxlength="1000"
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <div class="contact-form-note">
+
+                <span class="contact-note-icon">
+                    i
+                </span>
+
+
+                <span>
+                    Vos informations seront utilisées uniquement
+                    pour répondre à votre message.
+                </span>
+
+            </div>
+
+
+            <div class="contact-form-actions">
+
+                <button
+                    type="button"
+                    class="contact-secondary-button"
+                    id="contactCancel"
+                >
+                    Annuler
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="primary-button contact-submit"
+                >
+
+                    Envoyer le message
+
+                    <span>
+                        →
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <div
+                class="contact-status"
+                id="contactStatus"
+                aria-live="polite"
+            ></div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<script src="mediabunny/mediabunny.cjs"></script>
+<script src="video.js"></script>
+
+</body>
+
+</html>

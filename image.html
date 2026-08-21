@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Editilo Image — éditeur d'images simple et moderne."
+    >
+
+    <title>Editilo - Image</title>
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="medias/favicon.png"
+    >
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="image.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVIGATION
+====================================================== -->
+
+<header class="navbar">
+
+    <div class="nav-container">
+
+        <a
+            href="index.html"
+            class="brand"
+        >
+
+            <span class="brand-mark">
+                E
+            </span>
+
+            <span class="brand-name">
+                Editilo
+            </span>
+
+        </a>
+
+
+        <nav class="navigation">
+
+            <a
+                href="index.html"
+                class="nav-link"
+                aria-label="Accueil"
+            >
+
+                <svg
+                    class="home-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+
+                    <path
+                        d="M3 10.5L12 3L21 10.5"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+
+                    <path
+                        d="M5.5 9.5V20H18.5V9.5"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+
+                    <path
+                        d="M9.5 20V14H14.5V20"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linejoin="round"
+                    />
+
+                </svg>
+
+            </a>
+
+
+            <a
+                href="outils.html"
+                class="nav-link"
+            >
+                Outils
+            </a>
+
+
+            <a
+                href="apropos.html"
+                class="nav-link"
+            >
+                À propos
+            </a>
+
+
+            <a
+                href="#"
+                class="nav-link contact-trigger"
+            >
+                Contact
+            </a>
+
+        </nav>
+
+
+        <button
+            class="mobile-menu-button"
+            id="mobileMenuButton"
+            aria-label="Ouvrir le menu"
+            aria-expanded="false"
+        >
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     MENU MOBILE
+====================================================== -->
+
+<div
+    class="mobile-menu"
+    id="mobileMenu"
+>
+
+    <a href="index.html">
+        Accueil
+    </a>
+
+    <a href="outils.html">
+        Outils
+    </a>
+
+    <a href="apropos.html">
+        À propos
+    </a>
+
+    <a
+        href="#"
+        class="contact-trigger"
+    >
+        Contact
+    </a>
+
+</div>
+
+
+<!-- =====================================================
+     ÉDITEUR IMAGE
+====================================================== -->
+
+<main class="image-editor">
+
+
+    <section class="image-topbar">
+
+        <div></div>
+
+
+        <div class="image-editor-title">
+
+            <span class="section-label">
+                IMAGE
+            </span>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="image-import-button"
+            id="openImageChoice"
+            aria-label="Ajouter une image"
+            title="Ajouter une image"
+        >
+            +
+        </button>
+
+    </section>
+
+
+
+    <section class="image-workspace">
+
+
+        <!-- =================================================
+             MESSAGE D'ACCUEIL
+        ================================================== -->
+
+        <div
+            class="empty-image-message"
+            id="emptyImageMessage"
+        >
+
+            <p>
+
+                Appuyez sur
+                <strong>+</strong>
+                pour importer ou prendre une photo.
+
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             ÉDITEUR
+        ================================================== -->
+
+        <section
+            class="image-loaded-editor"
+            id="imageLoadedEditor"
+        >
+
+
+            <!-- HISTORIQUE -->
+
+            <div class="image-history-controls">
+
+                <button
+                    type="button"
+                    class="image-history-button"
+                    id="imageUndoButton"
+                    title="Annuler — Ctrl+Z"
+                    disabled
+                >
+                    ↶
+                </button>
+
+
+                <button
+                    type="button"
+                    class="image-history-button"
+                    id="imageRedoButton"
+                    title="Rétablir — Ctrl+Y"
+                    disabled
+                >
+                    ↷
+                </button>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 CANVAS
+            ================================================== -->
+
+            <div class="image-stage">
+
+                <div
+                    class="image-canvas-wrapper"
+                    id="imageCanvasWrapper"
+                >
+
+                    <canvas
+                        id="imageCanvas"
+                    ></canvas>
+
+
+                    <!-- ROTATION -->
+
+                    <div
+                        class="rotate-overlay"
+                        id="rotateOverlay"
+                        hidden
+                    >
+
+                        <div
+                            class="rotate-center-point"
+                        ></div>
+
+                    </div>
+
+
+                    <!-- CROP -->
+
+                    <div
+                        class="crop-overlay"
+                        id="cropOverlay"
+                        hidden
+                    >
+
+                        <div
+                            class="crop-selection"
+                            id="cropSelection"
+                        >
+
+                            <div
+                                class="crop-handle crop-nw"
+                                data-handle="nw"
+                            ></div>
+
+                            <div
+                                class="crop-handle crop-n"
+                                data-handle="n"
+                            ></div>
+
+                            <div
+                                class="crop-handle crop-ne"
+                                data-handle="ne"
+                            ></div>
+
+                            <div
+                                class="crop-handle crop-e"
+                                data-handle="e"
+                            ></div>
+
+                            <div
+                                class="crop-handle crop-se"
+                                data-handle="se"
+                            ></div>
+
+                            <div
+                                class="crop-handle crop-s"
+                                data-handle="s"
+                            ></div>
+
+                            <div
+                                class="crop-handle crop-sw"
+                                data-handle="sw"
+                            ></div>
+
+                            <div
+                                class="crop-handle crop-w"
+                                data-handle="w"
+                            ></div>
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="crop-apply-button"
+                            id="applyCropButton"
+                            hidden
+                        >
+
+                            Appliquer
+
+                            <span>
+                                ✓
+                            </span>
+
+                        </button>
+
+                    </div>
+
+
+                    <!-- PIPETTE -->
+
+                    <div
+                        class="eyedropper-indicator"
+                        id="eyedropperIndicator"
+                        hidden
+                    >
+
+                        <div
+                            class="eyedropper-preview"
+                            id="eyedropperPreview"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 OUTILS
+            ================================================== -->
+
+            <div class="image-tools-panel">
+
+                <div class="image-tools-heading">
+
+                    <span class="image-tools-label">
+                        ÉDITION
+                    </span>
+
+                    <p id="imageToolHelp">
+                        Appuyez sue + pour commencer.
+                    </p>
+
+                </div>
+
+
+                <div class="image-tool-buttons">
+
+
+                    <button
+                        type="button"
+                        class="image-tool-button"
+                        data-action="crop"
+                        disabled
+                    >
+
+                        <span>
+                            ⛶
+                        </span>
+
+                        <strong>
+                            Rogner
+                        </strong>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="image-tool-button"
+                        data-action="rotate"
+                        disabled
+                    >
+
+                        <span>
+                            ↻
+                        </span>
+
+                        <strong>
+                            Rotation
+                        </strong>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="image-tool-button"
+                        data-action="flipHorizontal"
+                        disabled
+                    >
+
+                        <span>
+                            ↔
+                        </span>
+
+                        <strong>
+                            Retourner H
+                        </strong>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="image-tool-button"
+                        data-action="flipVertical"
+                        disabled
+                    >
+
+                        <span>
+                            ↕
+                        </span>
+
+                        <strong>
+                            Retourner V
+                        </strong>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="image-tool-button"
+                        data-action="resize"
+                        disabled
+                    >
+
+                        <span>
+                            ↗
+                        </span>
+
+                        <strong>
+                            Redimensionner
+                        </strong>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="image-tool-button"
+                        data-action="brightness"
+                        disabled
+                    >
+
+                        <span>
+                            ☼
+                        </span>
+
+                        <strong>
+                            Luminosité
+                        </strong>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="image-tool-button"
+                        data-action="contrast"
+                        disabled
+                    >
+
+                        <span>
+                            ◐
+                        </span>
+
+                        <strong>
+                            Contraste
+                        </strong>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="image-tool-button"
+                        data-action="saturation"
+                        disabled
+                    >
+
+                        <span>
+                            ◉
+                        </span>
+
+                        <strong>
+                            Saturation
+                        </strong>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="image-tool-button"
+                        data-action="blur"
+                        disabled
+                    >
+
+                        <span>
+                            ≋
+                        </span>
+
+                        <strong>
+                            Flou
+                        </strong>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="image-tool-button"
+                        data-action="removeColor"
+                        disabled
+                    >
+
+                        <span>
+                            ◌
+                        </span>
+
+                        <strong>
+                            Fond vert
+                        </strong>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- EXPORT -->
+
+            <div class="image-editor-footer">
+
+                <button
+                    type="button"
+                    class="image-export-button"
+                    id="openImageExport"
+                    disabled
+                >
+
+                    Exporter
+
+                    <span>
+                        →
+                    </span>
+
+                </button>
+
+            </div>
+
+        </section>
+
+    </section>
+
+</main>
+
+
+
+<!-- =====================================================
+     POPUP CHOIX
+====================================================== -->
+
+<div
+    class="image-modal"
+    id="imageChoiceModal"
+    aria-hidden="true"
+>
+
+    <div
+        class="image-modal-overlay"
+        data-close-image-choice
+    ></div>
+
+
+    <div
+        class="image-modal-card"
+        role="dialog"
+        aria-modal="true"
+    >
+
+        <div class="image-modal-header">
+
+            <div>
+
+                <span class="section-label">
+                    NOUVELLE IMAGE
+                </span>
+
+                <h2>
+                    Comment commencer ?
+                </h2>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="image-modal-close"
+                id="closeImageChoice"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="image-choice-actions">
+
+
+            <button
+                type="button"
+                class="image-choice-card"
+                id="imageImportChoice"
+            >
+
+                <div class="image-choice-icon">
+                    ↑
+                </div>
+
+                <strong>
+                    Importer une image
+                </strong>
+
+                <span>
+                    Choisir un fichier ou le glisser-déposer
+                </span>
+
+            </button>
+
+
+            <button
+                type="button"
+                class="image-choice-card"
+                id="cameraChoice"
+            >
+
+                <div class="image-choice-icon">
+                    ●
+                </div>
+
+                <strong>
+                    Prendre une photo
+                </strong>
+
+                <span>
+                    Utiliser la caméra de votre appareil
+                </span>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     POPUP IMPORT
+====================================================== -->
+
+<div
+    class="image-modal"
+    id="imageImportModal"
+    aria-hidden="true"
+>
+
+    <div
+        class="image-modal-overlay"
+        data-close-image-import
+    ></div>
+
+
+    <div class="image-modal-card">
+
+        <div class="image-modal-header">
+
+            <div>
+
+                <span class="section-label">
+                    IMPORTER
+                </span>
+
+                <h2>
+                    Ajouter votre image.
+                </h2>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="image-modal-close"
+                id="closeImageImport"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div
+            class="image-drop-zone"
+            id="imageDropZone"
+        >
+
+            <div class="image-drop-icon">
+                ↑
+            </div>
+
+            <h3>
+                Glissez votre image ici
+            </h3>
+
+            <p>
+                ou choisissez directement un fichier
+            </p>
+
+
+            <button
+                type="button"
+                class="image-choose-button"
+                id="imageChooseFile"
+            >
+                Choisir une image
+            </button>
+
+
+            <span class="image-supported-formats">
+                JPG · JPEG · PNG · WEBP · GIF
+            </span>
+
+        </div>
+
+
+        <input
+            type="file"
+            id="imageFileInput"
+            accept="image/*"
+            hidden
+        >
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     POPUP CAMERA
+====================================================== -->
+
+<div
+    class="image-modal"
+    id="cameraModal"
+    aria-hidden="true"
+>
+
+    <div
+        class="image-modal-overlay"
+        data-close-camera
+    ></div>
+
+
+    <div class="image-modal-card">
+
+        <div class="image-modal-header">
+
+            <div>
+
+                <span class="section-label">
+                    CAMÉRA
+                </span>
+
+                <h2>
+                    Prenez une photo.
+                </h2>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="image-modal-close"
+                id="closeCamera"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="camera-preview">
+
+            <video
+                id="cameraVideo"
+                autoplay
+                playsinline
+                muted
+            ></video>
+
+        </div>
+
+
+        <div class="camera-controls">
+
+            <button
+                type="button"
+                class="camera-capture-button"
+                id="capturePhotoButton"
+            >
+
+                <span></span>
+
+            </button>
+
+        </div>
+
+
+        <canvas
+            id="cameraCanvas"
+            hidden
+        ></canvas>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     POPUP REDIMENSIONNEMENT
+====================================================== -->
+
+<div
+    class="image-modal"
+    id="resizeModal"
+    aria-hidden="true"
+>
+
+    <div
+        class="image-modal-overlay"
+        data-close-resize
+    ></div>
+
+
+    <div class="image-modal-card">
+
+        <div class="image-modal-header">
+
+            <div>
+
+                <span class="section-label">
+                    REDIMENSIONNER
+                </span>
+
+                <h2>
+                    Modifier les dimensions.
+                </h2>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="image-modal-close"
+                id="closeResize"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="resize-fields">
+
+            <div class="image-field">
+
+                <label for="imageWidth">
+                    Largeur
+                </label>
+
+                <input
+                    type="number"
+                    id="imageWidth"
+                    min="1"
+                >
+
+                <span>
+                    px
+                </span>
+
+            </div>
+
+
+            <div class="resize-lock">
+
+                <label>
+
+                    <input
+                        type="checkbox"
+                        id="lockAspectRatio"
+                        checked
+                    >
+
+                    Conserver les proportions
+
+                </label>
+
+            </div>
+
+
+            <div class="image-field">
+
+                <label for="imageHeight">
+                    Hauteur
+                </label>
+
+                <input
+                    type="number"
+                    id="imageHeight"
+                    min="1"
+                >
+
+                <span>
+                    px
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="modal-action-button"
+            id="applyResize"
+        >
+
+            Redimensionner
+
+            <span>
+                ✓
+            </span>
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     POPUP RÉGLAGE
+====================================================== -->
+
+<div
+    class="image-modal"
+    id="adjustmentModal"
+    aria-hidden="true"
+>
+
+    <div
+        class="image-modal-overlay"
+        data-close-adjustment
+    ></div>
+
+
+    <div class="image-modal-card">
+
+        <div class="image-modal-header">
+
+            <div>
+
+                <span class="section-label">
+                    RÉGLAGE
+                </span>
+
+                <h2 id="adjustmentTitle">
+                    Ajuster l'image.
+                </h2>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="image-modal-close"
+                id="closeAdjustment"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="adjustment-control">
+
+            <strong id="adjustmentValue">
+                0
+            </strong>
+
+
+            <input
+                type="range"
+                id="adjustmentSlider"
+                min="-100"
+                max="100"
+                value="0"
+                step="1"
+            >
+
+
+            <div class="adjustment-range-labels">
+
+                <span>
+                    -100
+                </span>
+
+                <span>
+                    0
+                </span>
+
+                <span>
+                    +100
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="modal-action-button"
+            id="applyAdjustment"
+        >
+
+            Appliquer
+
+            <span>
+                ✓
+            </span>
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     POPUP FLOU
+====================================================== -->
+
+<div
+    class="image-modal"
+    id="blurModal"
+    aria-hidden="true"
+>
+
+    <div
+        class="image-modal-overlay"
+        data-close-blur
+    ></div>
+
+
+    <div class="image-modal-card">
+
+        <div class="image-modal-header">
+
+            <div>
+
+                <span class="section-label">
+                    FLOU
+                </span>
+
+                <h2>
+                    Ajuster le flou.
+                </h2>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="image-modal-close"
+                id="closeBlur"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="adjustment-control">
+
+            <strong id="blurValue">
+                0 px
+            </strong>
+
+
+            <input
+                type="range"
+                id="blurSlider"
+                min="0"
+                max="20"
+                value="0"
+                step="1"
+            >
+
+
+            <div class="adjustment-range-labels">
+
+                <span>
+                    0
+                </span>
+
+                <span>
+                    10
+                </span>
+
+                <span>
+                    20
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="modal-action-button"
+            id="applyBlur"
+        >
+
+            Appliquer
+
+            <span>
+                ✓
+            </span>
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     POPUP FOND VERT
+====================================================== -->
+
+<div
+    class="image-modal"
+    id="removeColorModal"
+    aria-hidden="true"
+>
+
+    <div
+        class="image-modal-overlay"
+        data-close-color
+    ></div>
+
+
+    <div
+        class="image-modal-card remove-color-card"
+    >
+
+        <div class="color-modal-hero">
+
+            <div class="color-modal-icon">
+                ◌
+            </div>
+
+
+            <div>
+
+                <span class="section-label">
+                    FOND VERT
+                </span>
+
+                <h2>
+                    Supprimer une couleur.
+                </h2>
+
+                <p>
+                    Choisissez la couleur à rendre transparente.
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="image-modal-close"
+                id="closeRemoveColor"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="color-modal-card-inner">
+
+
+            <!-- =================================================
+                 NUANCIER PERSONNALISÉ
+            ================================================== -->
+
+            <div
+                class="custom-color-picker"
+                id="customColorPicker"
+            >
+
+                <button
+                    type="button"
+                    class="color-swatch-button"
+                    id="colorSwatchButton"
+                >
+
+                    <span
+                        id="selectedColorPreview"
+                    ></span>
+
+                    <span class="color-swatch-label">
+                        Choisir une couleur
+                    </span>
+
+                </button>
+
+
+                <div
+                    class="custom-color-panel"
+                    id="customColorPanel"
+                    hidden
+                >
+
+                    <div
+                        class="color-spectrum"
+                        id="colorSpectrum"
+                    >
+
+                        <div
+                            class="color-spectrum-cursor"
+                            id="colorSpectrumCursor"
+                        ></div>
+
+                    </div>
+
+
+                    <div
+                        class="color-hue"
+                        id="colorHue"
+                    >
+
+                        <div
+                            class="color-hue-cursor"
+                            id="colorHueCursor"
+                        ></div>
+
+                    </div>
+
+
+                    <div class="custom-color-bottom">
+
+                        <div
+                            class="custom-color-preview"
+                            id="customColorPreview"
+                        ></div>
+
+
+                        <strong
+                            id="customColorHex"
+                        >
+                            #00FF00
+                        </strong>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="custom-color-confirm"
+                        id="customColorConfirm"
+                    >
+
+                        Choisir
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 PIPETTE
+            ================================================== -->
+
+            <div class="eyedropper-area">
+
+                <button
+                    type="button"
+                    class="eyedropper-button"
+                    id="eyedropperButton"
+                >
+
+                    Pipette
+
+                </button>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 TOLÉRANCE
+            ================================================== -->
+
+            <div class="tolerance-card">
+
+                <div class="tolerance-heading">
+
+                    <div>
+
+                        <strong>
+                            Tolérance
+                        </strong>
+
+                        <span>
+                            Étendue des nuances supprimées
+                        </span>
+
+                    </div>
+
+
+                    <strong
+                        id="toleranceValue"
+                    >
+                        35%
+                    </strong>
+
+                </div>
+
+
+                <input
+                    type="range"
+                    id="toleranceSlider"
+                    min="0"
+                    max="100"
+                    value="35"
+                    step="1"
+                >
+
+
+                <div class="tolerance-labels">
+
+                    <span>
+                        Très précis
+                    </span>
+
+                    <span>
+                        Très large
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="tolerance-help">
+
+                <span class="tolerance-help-icon">
+                    i
+                </span>
+
+                <span>
+                    Plus la tolérance est élevée,
+                    plus les couleurs proches de celle
+                    sélectionnée seront supprimées.
+                </span>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="modal-action-button"
+                id="applyRemoveColor"
+            >
+
+                Supprimer cette couleur
+
+                <span>
+                    ✓
+                </span>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     POPUP EXPORT
+====================================================== -->
+
+<div
+    class="image-modal"
+    id="imageExportModal"
+    aria-hidden="true"
+>
+
+    <div
+        class="image-modal-overlay"
+        data-close-image-export
+    ></div>
+
+
+    <div class="image-modal-card">
+
+        <div class="image-modal-header">
+
+            <div>
+
+                <span class="section-label">
+                    EXPORT
+                </span>
+
+                <h2>
+                    Télécharger votre image.
+                </h2>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="image-modal-close"
+                id="closeImageExport"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="image-export-format-group">
+
+            <span class="image-export-label">
+                Format
+            </span>
+
+
+            <div class="image-format-buttons">
+
+                <button
+                    type="button"
+                    class="image-format-button active"
+                    data-format="png"
+                >
+                    PNG
+                </button>
+
+
+                <button
+                    type="button"
+                    class="image-format-button"
+                    data-format="jpeg"
+                >
+                    JPG
+                </button>
+
+
+                <button
+                    type="button"
+                    class="image-format-button"
+                    data-format="webp"
+                >
+                    WEBP
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="image-quality-group"
+            id="imageQualityGroup"
+            hidden
+        >
+
+            <div class="image-quality-header">
+
+                <span>
+                    Qualité
+                </span>
+
+                <strong
+                    id="imageQualityValue"
+                >
+                    90%
+                </strong>
+
+            </div>
+
+
+            <input
+                type="range"
+                id="imageQualitySlider"
+                min="10"
+                max="100"
+                value="90"
+            >
+
+        </div>
+
+
+        <button
+            type="button"
+            class="modal-action-button"
+            id="confirmImageExport"
+        >
+
+            Télécharger
+
+            <span>
+                ↓
+            </span>
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<script src="script.js"></script>
+
+<script src="image.js"></script>
+
+
+</body>
+
+</html>

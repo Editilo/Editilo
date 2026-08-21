@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Editilo Audio — éditeur audio simple et moderne."
+    >
+
+    <title>Editilo - Audio</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="audio.css"
+    >
+    <link rel="icon" type="image/png" href="medias/favicon.png">
+
+
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
+
+    <header class="navbar">
+
+        <div class="nav-container">
+
+            <a
+                href="index.html"
+                class="brand"
+            >
+
+                <span class="brand-mark">
+                    E
+                </span>
+
+                <span class="brand-name">
+                    Editilo
+                </span>
+
+            </a>
+
+
+            <nav class="navigation">
+
+                <a
+                    href="index.html"
+                    class="nav-link"
+                    aria-label="Accueil"
+                >
+
+                    <svg
+                        class="home-icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+
+                        <path
+                            d="M3 10.5L12 3L21 10.5"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+
+                        <path
+                            d="M5.5 9.5V20H18.5V9.5"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+
+                        <path
+                            d="M9.5 20V14H14.5V20"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                            stroke-linejoin="round"
+                        />
+
+                    </svg>
+
+                </a>
+
+
+                <a
+                    href="outils.html"
+                    class="nav-link"
+                >
+                    Outils
+                </a>
+
+
+                <a
+                    href="apropos.html"
+                    class="nav-link"
+                >
+                    À propos
+                </a>
+
+
+                <a
+                    href="#"
+                    class="nav-link contact-trigger"
+                >
+                    Contact
+                </a>
+
+            </nav>
+
+
+            <button
+                class="mobile-menu-button"
+                id="mobileMenuButton"
+                aria-label="Ouvrir le menu"
+                aria-expanded="false"
+            >
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MENU MOBILE
+    ====================================================== -->
+
+    <div
+        class="mobile-menu"
+        id="mobileMenu"
+    >
+
+        <a href="index.html">
+            Accueil
+        </a>
+
+        <a href="outils.html">
+            Outils
+        </a>
+
+        <a href="apropos.html">
+            À propos
+        </a>
+
+        <a
+            href="#"
+            class="contact-trigger"
+        >
+            Contact
+        </a>
+
+    </div>
+
+
+    <!-- =====================================================
+         ÉDITEUR AUDIO
+    ====================================================== -->
+
+    <main class="audio-editor">
+
+
+        <section class="audio-topbar">
+
+            <div></div>
+
+
+            <div class="audio-editor-title">
+
+                <span class="section-label">
+                    AUDIO
+                </span>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="audio-import-button"
+                id="openChoiceModal"
+                aria-label="Ajouter un audio"
+                title="Ajouter un audio"
+            >
+                +
+            </button>
+
+        </section>
+
+
+
+        <section class="audio-workspace">
+
+
+            <!-- =================================================
+                 ÉTAT VIDE
+            ================================================== -->
+
+            <div
+                class="empty-audio-message"
+                id="emptyAudioMessage"
+            >
+
+                <p>
+
+                    Appuyez sur
+                    <strong>+</strong>
+                    pour importer ou enregistrer un audio.
+
+                </p>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 ÉDITEUR
+            ================================================== -->
+
+            <section
+                class="audio-loaded-editor"
+                id="audioLoadedEditor"
+            >
+
+
+                <!-- HISTORIQUE -->
+
+                <div class="history-controls">
+
+                    <button
+                        type="button"
+                        class="history-button"
+                        id="undoButton"
+                        title="Annuler — Ctrl+Z"
+                        aria-label="Annuler"
+                        disabled
+                    >
+                        ↶
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="history-button"
+                        id="redoButton"
+                        title="Rétablir — Ctrl+Y"
+                        aria-label="Rétablir"
+                        disabled
+                    >
+                        ↷
+                    </button>
+
+                </div>
+
+
+
+                <!-- AUDIOS -->
+
+                <div
+                    class="clips-container"
+                    id="clipsContainer"
+                ></div>
+
+
+
+                <!-- LECTURE -->
+
+                <div class="playback-controls">
+
+                    <button
+                        type="button"
+                        class="seek-button"
+                        id="seekBackwardButton"
+                        title="Reculer de 0,1 seconde"
+                        aria-label="Reculer de 0,1 seconde"
+                        disabled
+                    >
+                        ⏮
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="main-play-button"
+                        id="playPauseButton"
+                        aria-label="Lire"
+                        disabled
+                    >
+
+                        <span id="playPauseIcon">
+                            ▶
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="seek-button"
+                        id="seekForwardButton"
+                        title="Avancer de 0,1 seconde"
+                        aria-label="Avancer de 0,1 seconde"
+                        disabled
+                    >
+                        ⏭
+                    </button>
+
+                </div>
+
+
+
+                <div class="position-display">
+
+                    <span id="currentPosition">
+                        00:00
+                    </span>
+
+                </div>
+
+
+
+                <!-- OUTILS -->
+
+                <div class="audio-tools-panel">
+
+                    <div class="audio-tools-heading">
+
+                        <span class="audio-tools-label">
+                            ÉDITION
+                        </span>
+
+                        <p id="toolHelpText">
+                            Appuyez sur + pour commencer.
+                        </p>
+
+                    </div>
+
+
+                    <div class="audio-tool-buttons">
+
+
+                        <button
+                            type="button"
+                            class="audio-tool-button"
+                            data-action="split"
+                            disabled
+                        >
+
+                            <span>
+                                ✂
+                            </span>
+
+                            <strong>
+                                Couper
+                            </strong>
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="audio-tool-button"
+                            data-action="merge"
+                            disabled
+                        >
+
+                            <span>
+                                ⛓
+                            </span>
+
+                            <strong>
+                                Fusionner
+                            </strong>
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="audio-tool-button"
+                            data-action="delete"
+                            disabled
+                        >
+
+                            <span>
+                                🗑
+                            </span>
+
+                            <strong>
+                                Supprimer
+                            </strong>
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="audio-tool-button"
+                            data-action="volume"
+                            disabled
+                        >
+
+                            <span>
+                                ♬
+                            </span>
+
+                            <strong>
+                                Volume
+                            </strong>
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="audio-tool-button"
+                            data-action="normalize"
+                            disabled
+                        >
+
+                            <span>
+                                ↕
+                            </span>
+
+                            <strong>
+                                Normaliser
+                            </strong>
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="audio-tool-button"
+                            data-action="reverse"
+                            disabled
+                        >
+
+                            <span>
+                                ↔
+                            </span>
+
+                            <strong>
+                                Reverse
+                            </strong>
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="audio-tool-button"
+                            data-action="fadeIn"
+                            disabled
+                        >
+
+                            <span>
+                                ◢
+                            </span>
+
+                            <strong>
+                                Fade in
+                            </strong>
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="audio-tool-button"
+                            data-action="fadeOut"
+                            disabled
+                        >
+
+                            <span>
+                                ◣
+                            </span>
+
+                            <strong>
+                                Fade out
+                            </strong>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- EXPORT -->
+
+                <div class="audio-editor-footer">
+
+                    <button
+                        type="button"
+                        class="export-button"
+                        id="openExportModal"
+                        disabled
+                    >
+
+                        Exporter
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </section>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =====================================================
+         MODALE CHOIX
+    ====================================================== -->
+
+    <div
+        class="audio-modal"
+        id="choiceModal"
+        aria-hidden="true"
+    >
+
+        <div
+            class="audio-modal-overlay"
+            data-close-choice
+        ></div>
+
+
+        <div
+            class="audio-modal-card"
+            role="dialog"
+            aria-modal="true"
+        >
+
+            <div class="audio-modal-header">
+
+                <div>
+
+                    <span class="section-label">
+                        NOUVEL AUDIO
+                    </span>
+
+                    <h2>
+                        Comment commencer ?
+                    </h2>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="audio-modal-close"
+                    id="closeChoiceModal"
+                    aria-label="Fermer"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="choice-actions">
+
+
+                <button
+                    type="button"
+                    class="choice-card"
+                    id="choiceImportButton"
+                >
+
+                    <div class="choice-card-icon">
+                        ↑
+                    </div>
+
+                    <strong>
+                        Importer un audio
+                    </strong>
+
+                    <span>
+                        Choisir un fichier ou le glisser-déposer
+                    </span>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="choice-card"
+                    id="choiceRecordButton"
+                >
+
+                    <div class="choice-card-icon">
+                        ●
+                    </div>
+
+                    <strong>
+                        Enregistrer un audio
+                    </strong>
+
+                    <span>
+                        Utiliser le microphone de votre appareil
+                    </span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         MODALE IMPORT
+    ====================================================== -->
+
+    <div
+        class="audio-modal"
+        id="importModal"
+        aria-hidden="true"
+    >
+
+        <div
+            class="audio-modal-overlay"
+            data-close-import
+        ></div>
+
+
+        <div
+            class="audio-modal-card"
+            role="dialog"
+            aria-modal="true"
+        >
+
+            <div class="audio-modal-header">
+
+                <div>
+
+                    <span class="section-label">
+                        IMPORTER
+                    </span>
+
+                    <h2>
+                        Ajouter votre audio.
+                    </h2>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="audio-modal-close"
+                    id="closeImportModal"
+                    aria-label="Fermer"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div
+                class="drop-zone"
+                id="dropZone"
+            >
+
+                <div class="drop-zone-icon">
+                    ↑
+                </div>
+
+
+                <h3>
+                    Glissez votre fichier ici
+                </h3>
+
+
+                <p>
+                    ou choisissez directement un fichier
+                </p>
+
+
+                <button
+                    type="button"
+                    class="choose-file-button"
+                    id="chooseFileButton"
+                >
+                    Choisir un fichier
+                </button>
+
+
+                <span class="supported-formats">
+                    MP3 · WAV · OGG · M4A · AAC · FLAC
+                </span>
+
+            </div>
+
+
+            <input
+                type="file"
+                id="audioFileInput"
+                accept="audio/*"
+                hidden
+            >
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         MODALE ENREGISTREMENT
+    ====================================================== -->
+
+    <div
+        class="audio-modal"
+        id="recordModal"
+        aria-hidden="true"
+    >
+
+        <div
+            class="audio-modal-overlay"
+            data-close-record
+        ></div>
+
+
+        <div
+            class="audio-modal-card"
+            role="dialog"
+            aria-modal="true"
+        >
+
+            <div class="audio-modal-header">
+
+                <div>
+
+                    <span class="section-label">
+                        ENREGISTREMENT
+                    </span>
+
+                    <h2>
+                        Enregistrez votre audio.
+                    </h2>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="audio-modal-close"
+                    id="closeRecordModal"
+                    aria-label="Fermer"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="recording-wave-container">
+
+                <canvas
+                    id="recordingWaveCanvas"
+                ></canvas>
+
+            </div>
+
+
+            <div class="recording-timer">
+                00:00
+            </div>
+
+
+            <div class="recording-status">
+
+                <span></span>
+
+                Prêt à enregistrer
+
+            </div>
+
+
+            <button
+                type="button"
+                class="record-start-button"
+                id="recordStartButton"
+            >
+                ● Commencer l'enregistrement
+            </button>
+
+
+            <button
+                type="button"
+                class="record-stop-button"
+                id="recordStopButton"
+                hidden
+            >
+                ■ Arrêter l'enregistrement
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         MODALE FADE
+    ====================================================== -->
+
+    <div
+        class="audio-modal"
+        id="fadeModal"
+        aria-hidden="true"
+    >
+
+        <div
+            class="audio-modal-overlay"
+            data-close-fade
+        ></div>
+
+
+        <div
+            class="audio-modal-card"
+            role="dialog"
+            aria-modal="true"
+        >
+
+            <div class="audio-modal-header">
+
+                <div>
+
+                    <span class="section-label">
+                        EFFET
+                    </span>
+
+                    <h2 id="fadeModalTitle">
+                        Régler le fade.
+                    </h2>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="audio-modal-close"
+                    id="closeFadeModal"
+                    aria-label="Fermer"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <label class="auto-fade-option">
+
+                <input
+                    type="checkbox"
+                    id="automaticFade"
+                    checked
+                >
+
+
+                <div>
+
+                    <strong>
+                        Automatique
+                    </strong>
+
+                    <small>
+                        Durée proportionnelle à la longueur du clip
+                    </small>
+
+                </div>
+
+            </label>
+
+
+            <div
+                class="manual-fade"
+                id="manualFade"
+            >
+
+                <label for="fadeDuration">
+                    Durée du fade
+                </label>
+
+
+                <div class="fade-duration-input">
+
+                    <input
+                        type="number"
+                        id="fadeDuration"
+                        value="1"
+                        min="0.1"
+                        max="60"
+                        step="0.1"
+                    >
+
+
+                    <span>
+                        secondes
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="modal-action-button"
+                id="applyFadeButton"
+            >
+                Appliquer
+                <span>✓</span>
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         MODALE VOLUME
+    ====================================================== -->
+
+    <div
+        class="audio-modal"
+        id="volumeModal"
+        aria-hidden="true"
+    >
+
+        <div
+            class="audio-modal-overlay"
+            data-close-volume
+        ></div>
+
+
+        <div
+            class="audio-modal-card"
+            role="dialog"
+            aria-modal="true"
+        >
+
+            <div class="audio-modal-header">
+
+                <div>
+
+                    <span class="section-label">
+                        VOLUME
+                    </span>
+
+                    <h2>
+                        Ajuster le volume.
+                    </h2>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="audio-modal-close"
+                    id="closeVolumeModal"
+                    aria-label="Fermer"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="volume-control">
+
+                <strong id="volumeValue">
+                    100%
+                </strong>
+
+
+                <input
+                    type="range"
+                    id="volumeSlider"
+                    min="0"
+                    max="200"
+                    step="1"
+                    value="100"
+                >
+
+
+                <div class="range-labels">
+
+                    <span>
+                        0%
+                    </span>
+
+                    <span>
+                        200%
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="modal-action-button"
+                id="applyVolumeButton"
+            >
+                Appliquer
+                <span>✓</span>
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         MODALE EXPORT
+    ====================================================== -->
+
+    <div
+        class="audio-modal"
+        id="exportModal"
+        aria-hidden="true"
+    >
+
+        <div
+            class="audio-modal-overlay"
+            data-close-export
+        ></div>
+
+
+        <div
+            class="audio-modal-card"
+            role="dialog"
+            aria-modal="true"
+        >
+
+            <div class="audio-modal-header">
+
+                <div>
+
+                    <span class="section-label">
+                        EXPORT
+                    </span>
+
+                    <h2>
+                        Télécharger votre audio.
+                    </h2>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="audio-modal-close"
+                    id="closeExportModal"
+                    aria-label="Fermer"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="export-format-group">
+
+                <span class="export-label">
+                    Format
+                </span>
+
+
+                <div class="format-buttons">
+
+                    <button
+                        type="button"
+                        class="format-button active"
+                        data-format="wav"
+                    >
+                        WAV
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="format-button"
+                        data-format="mp3"
+                    >
+                        MP3
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="bitrate-group"
+                id="bitrateGroup"
+                hidden
+            >
+
+                <div class="bitrate-header">
+
+                    <span class="export-label">
+                        Qualité MP3
+                    </span>
+
+
+                    <strong id="bitrateValue">
+                        192 kbps
+                    </strong>
+
+                </div>
+
+
+                <input
+                    type="range"
+                    id="bitrateSlider"
+                    min="96"
+                    max="320"
+                    step="32"
+                    value="192"
+                >
+
+            </div>
+
+
+            <button
+                type="button"
+                class="modal-action-button"
+                id="exportConfirmButton"
+            >
+                Télécharger
+                <span>↓</span>
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         CONTACT
+         Conservé pour que le script.js général du site
+         fonctionne exactement comme sur les autres pages.
+    ====================================================== -->
+
+    <div
+        class="contact-modal"
+        id="contactModal"
+        aria-hidden="true"
+    >
+
+        <div
+            class="contact-modal-overlay"
+            data-close-contact
+        ></div>
+
+
+        <div
+            class="contact-modal-card"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="contactModalTitle"
+        >
+
+            <div class="contact-modal-header">
+
+                <div>
+
+                    <span class="section-label">
+                        CONTACT
+                    </span>
+
+                    <h2 id="contactModalTitle">
+                        Parlons d'Editilo.
+                    </h2>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="contact-close"
+                    id="contactClose"
+                    aria-label="Fermer"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <p class="contact-modal-intro">
+
+                Une suggestion, une question ou simplement
+                envie de nous faire part de votre avis ?
+                Envoyez-nous un message.
+
+            </p>
+
+
+            <form
+                class="contact-form"
+                id="contactForm"
+                action="https://formspree.io/f/mwlenedj"
+                method="POST"
+            >
+
+                <div class="contact-form-row">
+
+                    <div class="contact-field">
+
+                        <label for="contactFirstName">
+                            Prénom
+                        </label>
+
+                        <input
+                            type="text"
+                            id="contactFirstName"
+                            name="firstName"
+                            placeholder="Votre prénom"
+                            maxlength="50"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="contact-field">
+
+                        <label for="contactLastName">
+                            Nom
+                        </label>
+
+                        <input
+                            type="text"
+                            id="contactLastName"
+                            name="lastName"
+                            placeholder="Votre nom"
+                            maxlength="50"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="contact-field">
+
+                    <label for="contactEmail">
+                        Adresse e-mail
+                    </label>
+
+                    <input
+                        type="email"
+                        id="contactEmail"
+                        name="email"
+                        placeholder="vous@exemple.com"
+                        maxlength="120"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="contact-field">
+
+                    <div class="contact-message-label">
+
+                        <label for="contactMessage">
+                            Message
+                        </label>
+
+                        <span id="messageCounter">
+                            0 / 1000
+                        </span>
+
+                    </div>
+
+
+                    <textarea
+                        id="contactMessage"
+                        name="message"
+                        placeholder="Écrivez votre message..."
+                        maxlength="1000"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <div class="contact-form-note">
+
+                    <span class="contact-note-icon">
+                        i
+                    </span>
+
+                    <span>
+                        Vos informations seront utilisées uniquement
+                        pour répondre à votre message.
+                    </span>
+
+                </div>
+
+
+                <div class="contact-form-actions">
+
+                    <button
+                        type="button"
+                        class="contact-secondary-button"
+                        id="contactCancel"
+                    >
+                        Annuler
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="primary-button contact-submit"
+                    >
+
+                        Envoyer le message
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+                </div>
+
+
+                <div
+                    class="contact-status"
+                    id="contactStatus"
+                    aria-live="polite"
+                ></div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.all.js"
+    ></script>
+
+
+    <script src="script.js"></script>
+
+    <script src="audio.js"></script>
+
+
+</body>
+
+</html>
